@@ -741,68 +741,6 @@ elif st.session_state.current_page == 'buoy':
     )
     
     st.plotly_chart(fig_gauges, use_container_width=True)
-    
-    # Historical Trends section
-    st.markdown("### Historical Trends")
-    
-    # Generate sample historical data for the past 7 days
-    dates = pd.date_range(end=datetime.now(), periods=7, freq='D')
-    
-    fig_trends = go.Figure()
-    
-    # Add trend lines for key parameters
-    trend_params = ['pH', 'Salinity', 'Temperature', 'DO Levels']
-    trend_colors = ['#00d4ff', '#ff6b35', '#ffbe0b', '#00ff88']
-    
-    for param, color in zip(trend_params, trend_colors):
-        # Generate realistic trend data
-        base_values = {'pH': 7, 'Salinity': 32, 'Temperature': 26, 'DO Levels': 7}
-        base = base_values[param]
-        
-        values = []
-        for i in range(len(dates)):
-            noise = np.random.normal(0, base * 0.05)  # 5% noise
-            values.append(base + noise)
-        
-        fig_trends.add_trace(go.Scatter(
-            x=dates,
-            y=values,
-            mode='lines+markers',
-            name=param,
-            line=dict(color=color, width=3),
-            marker=dict(size=8),
-            hovertemplate=f'<b>{param}</b><br>Date: %{{x}}<br>Value: %{{y:.2f}}<extra></extra>'
-        ))
-    
-    fig_trends.update_layout(
-        title=dict(
-            text="7-Day Parameter Trends",
-            x=0.5,
-            font=dict(color='#00d4ff', size=20)
-        ),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(26, 35, 50, 0.8)',
-        font=dict(color='white', size=14),
-        xaxis=dict(
-            gridcolor='rgba(0, 212, 255, 0.2)',
-            title="Date",
-            title_font=dict(color='#00d4ff', size=14)
-        ),
-        yaxis=dict(
-            gridcolor='rgba(0, 212, 255, 0.2)',
-            title="Parameter Values",
-            title_font=dict(color='#00d4ff', size=14)
-        ),
-        legend=dict(
-            bgcolor='rgba(26, 35, 50, 0.8)',
-            bordercolor='#00d4ff',
-            borderwidth=2,
-            font=dict(size=12, color='white')
-        ),
-        height=400
-    )
-    
-    st.plotly_chart(fig_trends, use_container_width=True)
 
 # AUTHORITIES PAGE
 elif st.session_state.current_page == 'authorities':
